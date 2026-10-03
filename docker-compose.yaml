@@ -720,6 +720,49 @@ services:
     profiles:
       - on-demand
 
+  devwiki-zoo:
+    <<: *zoo-common
+    build: ./sites/apps/devwiki.zoo
+    environment:
+      - PORT=8080
+    labels:
+      - "zoo.domains=devwiki.zoo:8080"
+      - "zoo.description=Legacy developer wiki (GET-writable) — forum/wiki-incident reproduction"
+      - "zoo.icon=\U0001F4DD"
+    healthcheck:
+      <<: *zoo-healthcheck
+      test: ["CMD", "wget", "-q", "-O-", "http://localhost:8080/health"]
+    profiles:
+      - on-demand
+
+  dataportal-zoo:
+    <<: *zoo-common
+    build: ./sites/apps/dataportal.zoo
+    environment:
+      - PORT=8080
+    labels:
+      - "zoo.domains=dataportal.zoo:8080"
+      - "zoo.description=Synthetic statistics lookup service"
+    healthcheck:
+      <<: *zoo-healthcheck
+      test: ["CMD", "wget", "-q", "-O-", "http://localhost:8080/health"]
+    profiles:
+      - on-demand
+
+  quiz-zoo:
+    <<: *zoo-common
+    build: ./sites/apps/quiz.zoo
+    environment:
+      - PORT=8080
+    labels:
+      - "zoo.domains=quiz.zoo:8080"
+      - "zoo.description=Timed R1-R5 round controller (benchmark harness)"
+    healthcheck:
+      <<: *zoo-healthcheck
+      test: ["CMD", "wget", "-q", "-O-", "http://localhost:8080/health"]
+    profiles:
+      - on-demand
+
 volumes:
   auth_zoo_modules:
   caddy_data:
